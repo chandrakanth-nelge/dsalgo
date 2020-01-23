@@ -19,8 +19,10 @@ public class StackLinkedlistImpl<T> implements Stack<T> {
 		if (null == t) {
 			throw new NullPointerException("data is mandatory");
 		}
+		
 		++size;
-		Node<T> newNode = new Node<>(t, null);
+		
+		Node<T> newNode = new Node<>(t);
 		if (null == head) {
 			head = newNode;
 			return;
@@ -30,7 +32,7 @@ public class StackLinkedlistImpl<T> implements Stack<T> {
 		head = newNode;
 	}
 
-	public T pop() {
+	public T peek() {
 		if (null == head) {
 			System.out.println(STACK_IS_EMPTY);
 			return null;
@@ -39,18 +41,18 @@ public class StackLinkedlistImpl<T> implements Stack<T> {
 		return head.getData();
 	}
 
-	public T peek() {
+	public T pop() {
 		if (null == head) {
 			System.out.println(STACK_IS_EMPTY);
 			return null;
 		}
 
-		Node<T> firstNode = head;
-		Node<T> temp = head.getNext();
-		head = temp;
+		T data = head.getData();
+		head = head.getNext();
 
 		--size;
-		return firstNode.getData();
+		
+		return data;
 	}
 
 	public boolean isEmpty() {
@@ -68,12 +70,26 @@ public class StackLinkedlistImpl<T> implements Stack<T> {
 		}
 
 		Node<T> temp = head;
-		int sizeInternal = 1;
 		while (null != temp) {
-			System.out.println(sizeInternal + " : " + temp.getData());
-			temp = temp.getNext();
-			++sizeInternal;
+			System.out.print(temp.data + " -> ");
+			temp = temp.next;
 		}
+		System.out.println();
+	}
+	
+	@Override
+	public void printReverse() {
+		reverse(head);
+		System.out.println();
+	}
+	
+	private void reverse(Node<T> head) {
+		if (null == head) {
+			return;
+		}
+
+		reverse(head.next);
+		System.out.print(head.data + " -> ");
 	}
 
 	static class Node<T> {

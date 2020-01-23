@@ -20,42 +20,41 @@ public class StackTest {
 		s.push(30);
 		s.push(40);
 		s.push(50);
+		
 		System.out.println("==========================JAVAA=========================");
-		for (Integer i : s) {
-			System.out.println(i);
-		}
+		System.out.println(s);
+		System.out.println(s.pop());
+		System.out.println(s);
 		System.out.println("==========================JAVAA=========================");
 
 		Stack<Integer> stack = new StackLinkedlistImpl<>();
-
 		System.out.println(SPACE);
 		stack.push(10);
 		stack.push(20);
 		stack.push(30);
 		stack.push(40);
 		stack.push(50);
-		stack.display();
-		System.out.println(SIZE + stack.size());
+		stack.printReverse();
+		System.out.println(stack.pop());
+		stack.printReverse();
 		System.out.println(SPACE);
 
 		System.out.println(SPACE);
 		Integer value = stack.peek();
 		System.out.println("PEEK = " + value);
-		stack.display();
-		System.out.println(SIZE + stack.size());
+		stack.printReverse();
 		System.out.println(SPACE);
 
 		System.out.println(SPACE);
 		stack.push(150);
 		System.out.println("PUSH = " + 150);
-		stack.display();
-		System.out.println(SIZE + stack.size());
+		stack.printReverse();
 		System.out.println(SPACE);
 
 		System.out.println(SPACE);
 		stack.push(60);
 		System.out.println("PUSH = " + 60);
-		stack.display();
+		stack.printReverse();
 		System.out.println(SIZE + stack.size());
 		System.out.println(SPACE);
 
