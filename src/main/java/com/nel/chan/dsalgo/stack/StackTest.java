@@ -72,4 +72,12 @@ public class StackTest {
 		System.out.println(SIZE + stack.size());
 		System.out.println(SPACE);
 	}
+
+	@SuppressWarnings("unused")
+	private void isExpressionBalanced() {
+		String expression = "([{}])[]";
+		BalancedParenthensies balancedParenthensies = new BalancedParenthensies();
+		boolean isBalanced = balancedParenthensies.isBalancedExpression(expression);
+		System.out.println("Is expression balanced ? = " + isBalanced);
+	}
 }
