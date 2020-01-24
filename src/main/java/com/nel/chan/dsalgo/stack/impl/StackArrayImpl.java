@@ -55,9 +55,9 @@ public class StackArrayImpl<T> implements Stack<T> {
 		container[top] = null;
 		top = top - 1;
 
-		if (top > 0 && top == container.length / 4) {
+		/*if (top > 0 && top == container.length / 4) {
 			resize(container.length / 2);
-		}
+		}*/
 
 		return item;
 	}
@@ -67,10 +67,13 @@ public class StackArrayImpl<T> implements Stack<T> {
 			System.out.println(STACK_IS_EMPTY);
 			return;
 		}
-
+		
+		System.out.print("[");
 		for (int i = 0; i < top + 1; i++) {
-			System.out.println(container[i]);
+			System.out.print(container[i] + " , ");
 		}
+		System.out.print("]");
+		System.out.println();
 	}
 
 	public boolean isEmpty() {

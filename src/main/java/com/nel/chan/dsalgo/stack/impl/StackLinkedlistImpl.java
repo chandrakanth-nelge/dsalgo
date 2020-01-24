@@ -25,11 +25,10 @@ public class StackLinkedlistImpl<T> implements Stack<T> {
 		Node<T> newNode = new Node<>(t);
 		if (null == head) {
 			head = newNode;
-			return;
+		} else {
+			newNode.setNext(head);
+			head = newNode;
 		}
-
-		newNode.setNext(head);
-		head = newNode;
 	}
 
 	public T peek() {
@@ -50,8 +49,8 @@ public class StackLinkedlistImpl<T> implements Stack<T> {
 		T data = head.getData();
 		head = head.getNext();
 
-		--size;
-		
+		size = size - 1;
+
 		return data;
 	}
 
