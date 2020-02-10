@@ -5,7 +5,7 @@ import com.nel.chan.dsalgo.stack.impl.StackLinkedlistImpl;
 /**
  * @author Chandrakanth Nelge
  */
-public class StackTest {
+public class StackTest_2 {
 	private static final String SPACE = "========================================================";
 	private static final String SIZE = "Size = ";
 
