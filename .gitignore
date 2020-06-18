@@ -1,10 +1,8 @@
 HELP.md
-/target/
-/logs/
+target/
 !.mvn/wrapper/maven-wrapper.jar
-/src/main/resources/swagger2*.json
-/docs/jacoco/
-#flywayConfig.properties ### this should not be part of boilerplate, hence should be ignored using gitignore
+!**/src/main/**
+!**/src/test/**
 
 ### STS ###
 .apt_generated
@@ -27,7 +25,7 @@ HELP.md
 /dist/
 /nbdist/
 /.nb-gradle/
-/build/
+build/
 
 ### VS Code ###
 .vscode/
