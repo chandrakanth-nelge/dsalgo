@@ -6,7 +6,7 @@ public class ArrayRotate {
 
 	public static void main(String[] args) {
 		int[] arr = { 1, 2, 3, 4, 5, 6, 7 };
-		_print_Array(arr);
+		printArray(arr);
 
 		/*
 		 * int[] rotArrRight = rotate_Array_Right_Temp(arr, 2);
@@ -22,14 +22,15 @@ public class ArrayRotate {
 		 */
 	}
 
-	private static void _print_Array(int[] arr) {
+	private static void printArray(int[] arr) {
 		System.out.println(Arrays.toString(arr));
 	}
 
 	/***
 	 * O(n) : Time Complexity O(d) : Space Complexity
 	 */
-	private static int[] rotate_Array_Right_Temp(int[] arr, int rotate) {
+	@SuppressWarnings("unused")
+	private static int[] rotateArrayRightTemp(int[] arr, int rotate) {
 		int[] temp = new int[arr.length];
 
 		int j = rotate;
@@ -49,7 +50,8 @@ public class ArrayRotate {
 	/***
 	 * O(n) : Time Complexity O(d) : Space Complexity
 	 */
-	private static int[] rotate_Array_Left_Temp(int[] arr, int rotate) {
+	@SuppressWarnings("unused")
+	private static int[] rotateArrayLeftTemp(int[] arr, int rotate) {
 		int[] temp = new int[arr.length];
 
 		int j = 0;
@@ -68,14 +70,15 @@ public class ArrayRotate {
 	/***
 	 * O(n) : Time Complexity O(d) : Space Complexity
 	 */
-	private static int[] rotate_array_right_shift(int[] arr, int rotate) {
+	@SuppressWarnings("unused")
+	private static int[] rotateArrayRightShift(int[] arr, int rotate) {
 		for (int i = 0; i < rotate; i++) {
-			rotate_right_by_one(arr);
+			rotateRightByOne(arr);
 		}
 		return arr;
 	}
 
-	private static void rotate_right_by_one(int[] arr) {
+	private static void rotateRightByOne(int[] arr) {
 		for (int i = arr.length - 1; i > 0; i--) {
 			int temp = arr[i];
 			arr[i] = arr[i - 1];
@@ -86,14 +89,15 @@ public class ArrayRotate {
 	/***
 	 * O(n) : Time Complexity O(d) : Space Complexity
 	 */
-	private static int[] rotate_array_left_shift(int[] arr, int rotate) {
+	@SuppressWarnings("unused")
+	private static int[] rotateArrayLeftShift(int[] arr, int rotate) {
 		for (int i = 0; i < rotate; i++) {
-			rotate_left_by_one(arr);
+			rotateLeftByOne(arr);
 		}
 		return arr;
 	}
 
-	private static void rotate_left_by_one(int[] arr) {
+	private static void rotateLeftByOne(int[] arr) {
 		for (int i = arr.length - 1; i > 0; i--) {
 			int temp = arr[i];
 			arr[i] = arr[i - 1];
