@@ -4,139 +4,122 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdjacencyMatrixGraph {
-	private int vertices;
+	private List<Integer> vertices;
 	private int[][] graph;
 
-	public AdjacencyMatrixGraph(int vertex) {
-		this.vertices = vertex;
-		this.graph = new int[vertex][vertex];
+	public AdjacencyMatrixGraph(int noOfVertices) {
+		this.vertices = new ArrayList<>(noOfVertices);
+		this.graph = new int[noOfVertices][noOfVertices];
 	}
 
 	public void addVertex(int vertex) {
-		System.out.println("NA = " + vertex);
+		if (vertices.size() >= graph.length) {
+			throw new IllegalArgumentException("Graph is full");
+		}
+
+		if (isVertexExist(vertex)) {
+			throw new IllegalArgumentException("Vertex already exist");
+		}
+
+		vertices.add(vertex);
 	}
 
 	public void removeVertex(int vertex) {
-		System.out.println("NA = " + vertex);
+		int sourceIndex = getVertexIndex(vertex);
+		if (sourceIndex == -1) {
+			throw new IllegalArgumentException("Vertex doesn't exist");
+		}
+
+		for (int i = 0; i < vertices.size(); i++) {
+			graph[i][sourceIndex] = 0;
+			graph[sourceIndex][i] = 0;
+		}
 	}
 
 	public void addEdge(int source, int destination) {
-		if ((source >= vertices) || (destination >= vertices)) {
-			throw new IllegalArgumentException("Vertex does not exists!");
+		int sourceIndex = getVertexIndex(source);
+		int destinationIndex = getVertexIndex(destination);
+
+		if (sourceIndex == -1 || destinationIndex == -1) {
+			throw new IllegalArgumentException("Invalid Edge");
 		} else if (source == destination) {
-			throw new IllegalArgumentException("same vertex");
+			throw new IllegalArgumentException("Invalid Edge");
 		} else {
-			graph[destination][source] = 1;
-			graph[source][destination] = 1;
+			graph[sourceIndex][destinationIndex] = 1;
+			graph[destinationIndex][sourceIndex] = 1;
 		}
 	}
 
 	public void removeEdge(int source, int destination) {
-		if ((source >= vertices) || (destination >= vertices)) {
-			throw new IllegalArgumentException("Graph does not have the edge");
+		int sourceIndex = getVertexIndex(source);
+		int destinationIndex = getVertexIndex(destination);
+
+		if (sourceIndex == -1 || destinationIndex == -1) {
+			throw new IllegalArgumentException("Invalid Edge");
 		} else if (source == destination) {
-			throw new IllegalArgumentException("same vertex");
+			throw new IllegalArgumentException("Invalid Edge");
 		} else {
-			graph[source][destination] = 0;
-			graph[destination][source] = 0;
+			graph[sourceIndex][destinationIndex] = 0;
+			graph[destinationIndex][sourceIndex] = 0;
 		}
 	}
 
 	public List<Integer> vertices() {
-		List<Integer> list = new ArrayList<>();
-		for (int i = 0; i < vertices; i++) {
-			list.add(i);
-		}
-
-		return list;
-	}
-
-	public List<Integer> neighbors(int source) {
-		if (source >= vertices) {
-			throw new IllegalArgumentException("Vertex does not exists!");
-		}
-
-		List<Integer> list = new ArrayList<>();
-		for (int i = 0; i <= vertices; i++) {
-			if (graph[source][i] == 1) {
-				list.add(i);
-			}
-		}
-
-		return list;
-	}
-
-	public boolean hasVertex(int source) {
-		return source <= vertices;
-	}
-
-	public boolean hasEdge(int source, int destination) {
-		return graph[source][destination] == 1;
-	}
-
-	public int size() {
 		return vertices;
 	}
 
-	public int inDegree(int vertex) {
-		if (vertex >= vertices) {
-			throw new IllegalArgumentException();
+	public List<Integer> neighbors(int source) {
+		int sourceIndex = getVertexIndex(source);
+		if (sourceIndex == -1) {
+			throw new IllegalArgumentException("Invalid Edge");
 		}
 
-		int count = 0;
-		for (int i = 0; i < vertices; i++) {
-			if (graph[i][vertex] != 0) {
-				count++;
+		List<Integer> neighbors = new ArrayList<>();
+		for (int i = 0; i < vertices.size(); i++) {
+			if (graph[sourceIndex][i] == 1) {
+				neighbors.add(vertices.get(i));
 			}
 		}
 
-		return count;
+		return neighbors;
 	}
 
-	public int outDegree(int vertex) {
-		if (vertex >= vertices) {
-			throw new IllegalArgumentException();
+	public boolean hasVertex(int source) {
+		return isVertexExist(source);
+	}
+
+	public boolean hasEdge(int source, int destination) {
+		int sourceIndex = getVertexIndex(source);
+		int destinationIndex = getVertexIndex(destination);
+
+		if (sourceIndex == -1 || destinationIndex == -1) {
+			throw new IllegalArgumentException("Invalid Edge");
 		}
 
-		int count = 0;
-		for (int i = 0; i < vertices; i++) {
-			if (graph[vertex][i] != 0) {
-				count++;
-			}
-		}
+		return graph[sourceIndex][destinationIndex] == 1;
+	}
 
-		return count;
+	public int size() {
+		return vertices.size();
 	}
 
 	public void printGraph() {
-		System.out.println("Graph: (Adjacency Matrix)");
-		for (int i = 0; i < vertices; i++) {
-			for (int j = 0; j < vertices; j++) {
-				System.out.print(graph[i][j] + " ");
-			}
-			System.out.println();
-		}
-
-		for (int i = 0; i < vertices; i++) {
-			System.out.print("Vertex " + i + " is connected to:");
-			for (int j = 0; j < vertices; j++) {
+		for (int i = 0; i < graph.length; i++) {
+			System.out.print("Vertex " + vertices.get(i) + " is connected to: ");
+			for (int j = 0; j < graph.length; j++) {
 				if (graph[i][j] == 1) {
-					System.out.print(j + " ");
+					System.out.print(vertices.get(j) + " ");
 				}
 			}
 			System.out.println();
 		}
 	}
 
-	public static void main(String[] args) {
-		AdjacencyMatrixGraph graph = new AdjacencyMatrixGraph(5);
-		graph.addEdge(0, 1);
-		graph.addEdge(0, 4);
-		graph.addEdge(1, 2);
-		graph.addEdge(1, 3);
-		graph.addEdge(1, 4);
-		graph.addEdge(2, 3);
-		graph.addEdge(3, 4);
-		graph.printGraph();
+	private boolean isVertexExist(int vertex) {
+		return vertices.contains(vertex);
+	}
+
+	private int getVertexIndex(int vertex) {
+		return vertices.indexOf(vertex);
 	}
 }

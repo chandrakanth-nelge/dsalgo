@@ -2,7 +2,6 @@ package com.nel.chan.dsalgo.graph.impl.basic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -13,48 +12,84 @@ public class AdjacencyMapGraph {
 		graph = new HashMap<>();
 	}
 
-	void addEdge(int source, int destination) {
-		if (graph.containsKey(source)) {
-			List<Integer> list = graph.get(source);
-			list.add(destination);
-		} else {
-			ArrayList<Integer> list = new ArrayList<>();
-			list.add(destination);
-			graph.put(source, list);
+	public void addVertex(int vertex) {
+		if (isVertexExist(vertex)) {
+			throw new IllegalArgumentException("Vertex already exist");
 		}
+
+		graph.put(vertex, new ArrayList<>());
+	}
+
+	public void removeVertex(Integer vertex) {
+		if (!isVertexExist(vertex)) {
+			throw new IllegalArgumentException("Vertex doesn't exist");
+		}
+
+		for (Map.Entry<Integer, List<Integer>> edges : graph.entrySet()) {
+			edges.getValue().remove(vertex);
+		}
+		graph.remove(vertex);
+	}
+
+	void addEdge(int source, int destination) {
+		if (!isValidEdges(source, destination)) {
+			throw new IllegalArgumentException("Vertex doesn't exist");
+		}
+
+		graph.get(source).add(destination);
+		graph.get(destination).add(source);
 	}
 
 	void removeEdge(int source, int destination) {
-		if (!graph.containsKey(source)) {
-			System.out.println("Error..Enter a valid vertex");
+		if (!isValidEdges(source, destination)) {
+			throw new IllegalArgumentException("Vertex doesn't exist");
 		}
 
-		Iterator<Integer> it = graph.get(source).iterator();
-		while (it.hasNext()) {
-			int ele = it.next();
-			if (ele == destination) {
-				it.remove();
-			}
-		}
+		graph.get(source).remove(Integer.valueOf(destination));
+		graph.get(destination).remove(Integer.valueOf(source));
 	}
 
-	boolean isNeighbour(int source, int destination) {
-		if (!graph.containsKey(source)) {
-			return false;
+	public List<Integer> vertices() {
+		List<Integer> vertices = new ArrayList<>();
+		for (Integer vertex : graph.keySet()) {
+			vertices.add(vertex);
 		}
 
-		for (Integer neighbour : graph.get(source)) {
-			if (neighbour == destination) {
-				return true;
-			}
+		return vertices;
+	}
+
+	public List<Integer> neighbors(int vertex) {
+		if (!isVertexExist(vertex)) {
+			throw new IllegalArgumentException("Vertex doesn't exist");
 		}
 
-		return false;
+		List<Integer> neighbors = new ArrayList<>();
+		for (Integer edge : graph.get(vertex)) {
+			neighbors.add(edge);
+		}
+
+		return neighbors;
+	}
+
+	public boolean hasVertex(int vertex) {
+		return isVertexExist(vertex);
+	}
+
+	public boolean hasEdge(int source, int destination) {
+		if (!isValidEdges(source, destination)) {
+			throw new IllegalArgumentException("Vertex doesn't exist");
+		}
+
+		return graph.get(source).contains(Integer.valueOf(destination));
 	}
 
 	void printGraph() {
 		for (Map.Entry<Integer, List<Integer>> entry : graph.entrySet()) {
-			System.out.println("Key - " + entry.getKey() + " ---> " + entry.getValue());
+			System.out.print(entry.getKey() + " ---> ");
+			for (Integer edge : entry.getValue()) {
+				System.out.print(edge + " ");
+			}
+			System.out.println();
 		}
 	}
 
@@ -74,21 +109,21 @@ public class AdjacencyMapGraph {
 		}
 	}
 
-	public static void main(String[] args) {
-		AdjacencyMapGraph g = new AdjacencyMapGraph();
-		g.addEdge(0, 1);
-		g.addEdge(0, 2);
-		g.addEdge(1, 2);
-		g.addEdge(2, 0);
-		g.addEdge(2, 3);
-		g.addEdge(3, 3);
-		g.printGraph();
+	private boolean isValidEdges(int source, int destination) {
+		if (!isVertexExist(source)) {
+			System.out.println(source + " = is InValid Vertx");
+			return false;
+		}
 
-		String msg = (g.isNeighbour(0, 2)) ? "0--->2 there is edge" : "0--->2 there is no edge";
-		System.out.println(msg);
-		msg = (g.isNeighbour(0, 3)) ? "0--->3 there is edge" : "0--->3 there is no edge";
-		System.out.println(msg);
+		if (!isVertexExist(destination)) {
+			System.out.println(destination + " = is InValid Vertx");
+			return false;
+		}
 
-		g.dfs(1);
+		return true;
+	}
+
+	private boolean isVertexExist(int vertex) {
+		return graph.containsKey(vertex);
 	}
 }
