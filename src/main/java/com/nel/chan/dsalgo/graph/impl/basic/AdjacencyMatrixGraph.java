@@ -1,7 +1,9 @@
 package com.nel.chan.dsalgo.graph.impl.basic;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class AdjacencyMatrixGraph {
 	private List<Integer> vertices;
@@ -12,6 +14,7 @@ public class AdjacencyMatrixGraph {
 		this.graph = new int[noOfVertices][noOfVertices];
 	}
 
+	// O(V)
 	public void addVertex(int vertex) {
 		if (vertices.size() >= graph.length) {
 			throw new IllegalArgumentException("Graph is full");
@@ -24,6 +27,7 @@ public class AdjacencyMatrixGraph {
 		vertices.add(vertex);
 	}
 
+	// O(V + V)
 	public void removeVertex(int vertex) {
 		int sourceIndex = getVertexIndex(vertex);
 		if (sourceIndex == -1) {
@@ -36,6 +40,7 @@ public class AdjacencyMatrixGraph {
 		}
 	}
 
+	// O(V + V)
 	public void addEdge(int source, int destination) {
 		int sourceIndex = getVertexIndex(source);
 		int destinationIndex = getVertexIndex(destination);
@@ -50,6 +55,7 @@ public class AdjacencyMatrixGraph {
 		}
 	}
 
+	// O(V + V)
 	public void removeEdge(int source, int destination) {
 		int sourceIndex = getVertexIndex(source);
 		int destinationIndex = getVertexIndex(destination);
@@ -64,10 +70,12 @@ public class AdjacencyMatrixGraph {
 		}
 	}
 
+	// O(1)
 	public List<Integer> vertices() {
 		return vertices;
 	}
 
+	// O(V + V)
 	public List<Integer> neighbors(int source) {
 		int sourceIndex = getVertexIndex(source);
 		if (sourceIndex == -1) {
@@ -84,14 +92,15 @@ public class AdjacencyMatrixGraph {
 		return neighbors;
 	}
 
+	// O(V)
 	public boolean hasVertex(int source) {
 		return isVertexExist(source);
 	}
 
+	// O(V + V)
 	public boolean hasEdge(int source, int destination) {
 		int sourceIndex = getVertexIndex(source);
 		int destinationIndex = getVertexIndex(destination);
-
 		if (sourceIndex == -1 || destinationIndex == -1) {
 			throw new IllegalArgumentException("Invalid Edge");
 		}
@@ -101,6 +110,42 @@ public class AdjacencyMatrixGraph {
 
 	public int size() {
 		return vertices.size();
+	}
+
+	public void bfs(int source) {
+		boolean[] visited = new boolean[vertices.size()];
+		Queue<Integer> q = new LinkedList<>();
+		visited[getVertexIndex(source)] = true;
+		q.offer(source);
+		while (!q.isEmpty()) {
+			int u = q.poll();
+			System.out.print(u + " ");
+			int sourceIndex = getVertexIndex(u);
+			for (int destIndx = 0; destIndx < graph.length; destIndx++) {
+				if (graph[sourceIndex][destIndx] == 1) {
+					if (!visited[destIndx]) {
+						visited[destIndx] = true;
+						q.offer(vertices.get(destIndx));
+					}
+				}
+			}
+		}
+	}
+
+	public void motherVertext() {
+		for (int i = 0; i < graph.length; i++) {
+			boolean isMotherVertex = true;
+			for (int j = 0; j < graph.length; j++) {
+				if (graph[i][j] == 0 && (i != j)) {
+					isMotherVertex = false;
+					break;
+				}
+			}
+
+			if (isMotherVertex) {
+				System.out.println("Mother Vertex = " + vertices.get(i));
+			}
+		}
 	}
 
 	public void printGraph() {
@@ -115,10 +160,12 @@ public class AdjacencyMatrixGraph {
 		}
 	}
 
+	// O(V)
 	private boolean isVertexExist(int vertex) {
 		return vertices.contains(vertex);
 	}
 
+	// O(V)
 	private int getVertexIndex(int vertex) {
 		return vertices.indexOf(vertex);
 	}

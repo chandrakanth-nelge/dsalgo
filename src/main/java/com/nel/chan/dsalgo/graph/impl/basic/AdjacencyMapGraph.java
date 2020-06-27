@@ -63,12 +63,7 @@ public class AdjacencyMapGraph {
 			throw new IllegalArgumentException("Vertex doesn't exist");
 		}
 
-		List<Integer> neighbors = new ArrayList<>();
-		for (Integer edge : graph.get(vertex)) {
-			neighbors.add(edge);
-		}
-
-		return neighbors;
+		return graph.get(vertex);
 	}
 
 	public boolean hasVertex(int vertex) {

@@ -18,6 +18,7 @@ public class AdjacencyListGraph {
 		}
 	}
 
+	//O(V)
 	public void addVertex(int vertex) {
 		if (isVertexExist(vertex)) {
 			throw new IllegalArgumentException("Vertex already exist");
@@ -115,12 +116,11 @@ public class AdjacencyListGraph {
 		while (!q.isEmpty()) {
 			int u = q.poll();
 			System.out.print(u + " ");
-
-			for (int v : graph.get(getVertexIndex(u))) {
-				int destinationIndex = getVertexIndex(v);
-				if (!visited[destinationIndex]) {
-					visited[destinationIndex] = true;
-					q.offer(v);
+			int sourceIndex = getVertexIndex(u);
+			for (int destIndx : graph.get(sourceIndex)) {
+				if (!visited[destIndx]) {
+					visited[destIndx] = true;
+					q.offer(vertices.get(destIndx));
 				}
 			}
 		}

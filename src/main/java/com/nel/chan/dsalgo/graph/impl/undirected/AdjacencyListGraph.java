@@ -25,7 +25,6 @@ public class AdjacencyListGraph<V> extends UnDirectedGraph<V> {
 		}
 
 		vertices.add(vertex);
-
 		graph.add(vertices.size() - 1, new LinkedList<>());
 	}
 
