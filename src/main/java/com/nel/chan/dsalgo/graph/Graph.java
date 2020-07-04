@@ -15,6 +15,6 @@ public interface Graph<V> {
 	boolean hasVertex(V vertex);
 	boolean hasEdge(V source, V destination);
 	
-	void printGraph();
 	int size();
+	void printGraph();
 }

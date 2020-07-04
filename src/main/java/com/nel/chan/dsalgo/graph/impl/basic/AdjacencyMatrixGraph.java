@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 
 public class AdjacencyMatrixGraph {
 	private List<Integer> vertices;
 	private int[][] graph;
+	private int motherVertex;
 
 	public AdjacencyMatrixGraph(int noOfVertices) {
 		this.vertices = new ArrayList<>(noOfVertices);
@@ -114,36 +116,74 @@ public class AdjacencyMatrixGraph {
 
 	public void bfs(int source) {
 		boolean[] visited = new boolean[vertices.size()];
-		Queue<Integer> q = new LinkedList<>();
 		visited[getVertexIndex(source)] = true;
+		Queue<Integer> q = new LinkedList<>();
 		q.offer(source);
 		while (!q.isEmpty()) {
 			int u = q.poll();
 			System.out.print(u + " ");
 			int sourceIndex = getVertexIndex(u);
 			for (int destIndx = 0; destIndx < graph.length; destIndx++) {
-				if (graph[sourceIndex][destIndx] == 1) {
-					if (!visited[destIndx]) {
-						visited[destIndx] = true;
-						q.offer(vertices.get(destIndx));
-					}
+				if (graph[sourceIndex][destIndx] == 1 && !visited[destIndx]) {
+					q.offer(vertices.get(destIndx));
+					visited[destIndx] = true;
 				}
 			}
 		}
 	}
 
-	public void motherVertext() {
-		for (int i = 0; i < graph.length; i++) {
-			boolean isMotherVertex = true;
-			for (int j = 0; j < graph.length; j++) {
-				if (graph[i][j] == 0 && (i != j)) {
-					isMotherVertex = false;
-					break;
+	public void dfs(int source) {
+        boolean[] visited = new boolean[vertices.size()];
+        visited[getVertexIndex(source)] = true;
+        Stack<Integer> stack = new Stack<>();
+        stack.push(source);
+        while (!stack.isEmpty()) {
+            int u = stack.pop();
+            System.out.print(u + " ");
+            int sourceIndex = getVertexIndex(u);
+            for (int destIndx = 0; destIndx < graph.length; destIndx++){
+                if(graph[sourceIndex][destIndx]==1 && !visited[destIndx]){
+                    stack.push(vertices.get(destIndx));
+                    visited[destIndx] = true;
+                }
+            }
+        }
+        
+        for (int i = 0; i < vertices.size(); i++) {
+            if (!visited[i]) {
+                return;
+            }
+            motherVertex = source;
+        }
+    }
+	
+	public void motherVertex() {
+        for (int i = 0; i < vertices.size(); i++) {
+            System.out.println();
+            dfs(vertices.get(i));
+        }
+        
+        if (0 != motherVertex) {
+            System.out.println("motherVertex ::" + motherVertex);
+            return;
+        }
+        System.out.println(":: motherVertex does not exist ::");
+    }
+	
+	public void dfs1(int s) {
+		boolean[] visited = new boolean[vertices.size()];
+		Stack<Integer> stack = new Stack<>();
+		stack.push(s);
+		while (!stack.isEmpty()) {
+			int u = stack.pop();
+			if (!visited[u]) {
+				visited[u] = true;
+				System.out.print(u + " ");
+				for (int v : graph[u]) {
+					if (!visited[v]) {
+						stack.push(v);
+					}
 				}
-			}
-
-			if (isMotherVertex) {
-				System.out.println("Mother Vertex = " + vertices.get(i));
 			}
 		}
 	}

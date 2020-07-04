@@ -146,4 +146,9 @@ public class AdjacencyListEdgeGraph<V> extends UnDirectedGraph<V> {
 	private int getVertexIndex(V vertex) {
 		return vertices.indexOf(vertex);
 	}
+	
+	public static void main(String[] args) {
+		List<Integer> list = new ArrayList<>();
+		System.out.println(list);
+	}
 }
