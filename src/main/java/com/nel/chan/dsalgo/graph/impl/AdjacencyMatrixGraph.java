@@ -40,27 +40,27 @@ public class AdjacencyMatrixGraph {
 	}
 	
 	public List<Integer> vertices() {
-		List<Integer> vertexes = new ArrayList<>();
+		List<Integer> vertices = new ArrayList<>();
 		for (int i = 0; i < size(); i++) {
-			vertexes.add(i);
+			vertices.add(i);
 		}
 
-		return vertexes;
+		return vertices;
 	}
 
-	public List<Integer> neighbors(Integer source) {
+	public List<Integer> neighbours(Integer source) {
 		if (!isVertexExist(source)) {
 			throw new IllegalArgumentException("Vertex doesn't exist");
 		}
 
-		List<Integer> neighbors = new ArrayList<>();
+		List<Integer> neighbours = new ArrayList<>();
 		for (int dest = 0; dest < size(); dest++) {
 			if (graph[source][dest] == 1) {
-				neighbors.add(dest);
+				neighbours.add(dest);
 			}
 		}
 
-		return neighbors;
+		return neighbours;
 	}
 
 	public boolean hasVertex(Integer vertex) {
@@ -92,32 +92,12 @@ public class AdjacencyMatrixGraph {
 			System.out.println("");
 		}
 	}
-
-	private boolean isValidEdges(int source, int destination) {
-		if (!isVertexExist(source)) {
-			System.out.println(source + " = is InValid Vertx");
-			return false;
-		}
-
-		if (!isVertexExist(destination)) {
-			System.out.println(destination + " = is InValid Vertx");
-			return false;
-		}
-
-		return true;
-	}
-
-	private boolean isVertexExist(int vertex) {
-		return vertex < size();
-	}
 	
 	public void bfs(int source) {
 		boolean[] visited = new boolean[size()];
 		visited[source] = true;
-
 		Queue<Integer> q = new LinkedList<>();
 		q.offer(source);
-
 		while (!q.isEmpty()) {
 			int src = q.poll();
 			System.out.print(src + " ");
@@ -128,17 +108,14 @@ public class AdjacencyMatrixGraph {
 				}
 			}
 		}
-		
 		System.out.println();
 	}
 	
 	public void dfs(int source) {
 		boolean[] visited = new boolean[size()];
 		visited[source] = true;
-
 		Stack<Integer> stack = new Stack<>();
 		stack.push(source);
-
 		while (!stack.isEmpty()) {
 			int src = stack.pop();
 			System.out.print(src + " ");
@@ -151,14 +128,12 @@ public class AdjacencyMatrixGraph {
 				}
 			}
 		}
-		
 		System.out.println();
 	}
 	
 	public void dfsUtil(int source, boolean[] visited) {
 		Stack<Integer> stack = new Stack<>();
 		stack.push(source);
-
 		while (!stack.isEmpty()) {
 			int src = stack.pop();
 			if (!visited[src]) {
@@ -174,7 +149,6 @@ public class AdjacencyMatrixGraph {
 				}
 			}
 		}
-
 		System.out.println();
 	}
 	
@@ -187,7 +161,6 @@ public class AdjacencyMatrixGraph {
             	++noOfComponents;
             }
         }
-        
         System.out.println("Connected Components = " + noOfComponents);
     }
 	
@@ -225,7 +198,7 @@ public class AdjacencyMatrixGraph {
 	
 	private boolean dfsCyclic(int vertex, boolean[] visited, int parent) {
 		visited[vertex] = true;
-		for (int i : neighbors(vertex)) {
+		for (int i : neighbours(vertex)) {
 			if (!visited[i]) {
 				if (dfsCyclic(i, visited, vertex))
 					return true;
@@ -235,5 +208,23 @@ public class AdjacencyMatrixGraph {
 		}
 		
 		return false;
+	}
+	
+	private boolean isValidEdges(int source, int destination) {
+		if (!isVertexExist(source)) {
+			System.out.println(source + " = is InValid Vertx");
+			return false;
+		}
+
+		if (!isVertexExist(destination)) {
+			System.out.println(destination + " = is InValid Vertx");
+			return false;
+		}
+
+		return true;
+	}
+
+	private boolean isVertexExist(int vertex) {
+		return vertex < size();
 	}
 }
