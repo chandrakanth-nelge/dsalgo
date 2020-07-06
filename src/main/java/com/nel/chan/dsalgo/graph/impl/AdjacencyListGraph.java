@@ -80,7 +80,7 @@ public class AdjacencyListGraph {
 		while (!q.isEmpty()) {
 			int src = q.poll();
 			System.out.print(src + " ");
-			
+
 			for (int dest : graph.get(src)) {
 				if (!visited[dest]) {
 					visited[dest] = true;

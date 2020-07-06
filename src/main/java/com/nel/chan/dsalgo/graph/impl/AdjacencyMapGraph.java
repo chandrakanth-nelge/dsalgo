@@ -1,4 +1,4 @@
-package com.nel.chan.dsalgo.graph.impl.basic;
+package com.nel.chan.dsalgo.graph.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,16 +34,16 @@ public class AdjacencyMapGraph {
 		graph.remove(vertex);
 	}
 
-	void addEdge(int source, int destination) {
+	public void addEdge(int source, int destination) {
 		if (!isValidEdges(source, destination)) {
 			throw new IllegalArgumentException("Vertex doesn't exist");
 		}
 
 		graph.get(source).add(destination);
-		graph.get(destination).add(source);
+		//graph.get(destination).add(source);
 	}
 
-	void removeEdge(int source, int destination) {
+	public void removeEdge(int source, int destination) {
 		if (!isValidEdges(source, destination)) {
 			throw new IllegalArgumentException("Vertex doesn't exist");
 		}
@@ -85,7 +85,7 @@ public class AdjacencyMapGraph {
 		return graph.size();
 	}
 
-	void printGraph() {
+	public void printGraph() {
 		for (Map.Entry<Integer, List<Integer>> entry : graph.entrySet()) {
 			System.out.print(entry.getKey() + " ---> ");
 			for (Integer edge : entry.getValue()) {
@@ -143,6 +143,14 @@ public class AdjacencyMapGraph {
         System.out.println();
     }
 	
+	public int findDegree(int source) {
+		if (!isVertexExist(source)) {
+			return -1;
+		}
+		
+		return neighbours(source).size();
+	}
+	
 	public int findMother() {
         if (graph.isEmpty()) {
             return -1;
@@ -156,6 +164,9 @@ public class AdjacencyMapGraph {
                 motherVertex = source;
             }
         }
+        
+        visited = new boolean[size()];
+        dfsUtil(motherVertex, visited);
         
         for(int v : graph.keySet()) {
         	if(!visited[v]) {
@@ -196,7 +207,6 @@ public class AdjacencyMapGraph {
         stack.add(source);
         while (!stack.isEmpty()) {
             int src = stack.pop();
-			//System.out.print(src + " ");
 			for (int dest : graph.get(src)) {
 				if (!visited[dest]) {
 					stack.push(dest);
