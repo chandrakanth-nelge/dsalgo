@@ -1,6 +1,7 @@
 package com.nel.chan.dsalgo.graph.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -78,7 +79,7 @@ public class AdjacencyMapGraph {
 			throw new IllegalArgumentException("Vertex doesn't exist");
 		}
 
-		return graph.get(source).contains(Integer.valueOf(destination));
+		return neighbours(source).contains(Integer.valueOf(destination));
 	}
 	
 	public int size() {
@@ -109,7 +110,7 @@ public class AdjacencyMapGraph {
 			int src = q.poll();
 			System.out.print(src + " ");
 
-			for (int dest : graph.get(src)) {
+			for (int dest : neighbours(src)) {
 				if (!visited[dest]) {
 					visited[dest] = true;
 					q.offer(dest);
@@ -133,7 +134,7 @@ public class AdjacencyMapGraph {
             int src = stack.pop();
 			System.out.print(src + " ");
 
-			for (int dest : graph.get(src)) {
+			for (int dest : neighbours(src)) {
 				if (!visited[dest]) {
 					stack.push(dest);
 					visited[dest] = true;
@@ -151,14 +152,46 @@ public class AdjacencyMapGraph {
 		return neighbours(source).size();
 	}
 	
+	public boolean isPathExists(int source, int destination) {
+		if (!isValidEdges(source, destination)) {
+			throw new IllegalArgumentException("Vertex doesn't exist");
+		}
+
+		if (source == destination) {
+			return true;
+		}
+		
+		boolean isPathExists = false;
+		
+		boolean[] visited = new boolean[size()];
+		visited[source] = true;
+		Stack<Integer> stack = new Stack<>();
+		stack.add(source);
+		while (!stack.isEmpty()) {
+			int src = stack.pop();
+			for (int dest : neighbours(src)) {
+				if (!visited[dest]) {
+					if (dest == destination) {
+						isPathExists = true;
+						break;
+					}
+					stack.add(dest);
+					visited[dest] = true;
+				}
+			}
+		}
+
+		return isPathExists;
+	}
+	
 	public int findMother() {
-        if (graph.isEmpty()) {
+        if (size() == 0) {
             return -1;
         }
         
         boolean[] visited = new boolean[size()];
         int motherVertex = 0;
-        for (int source : graph.keySet()) {
+        for (int source : vertices()) {
             if (!visited[source]) {
             	dfsUtil(source, visited);
                 motherVertex = source;
@@ -168,8 +201,8 @@ public class AdjacencyMapGraph {
         visited = new boolean[size()];
         dfsUtil(motherVertex, visited);
         
-        for(int v : graph.keySet()) {
-        	if(!visited[v]) {
+        for(int vertex : vertices()) {
+        	if(!visited[vertex]) {
         		return -1;
         	}
         }
@@ -186,8 +219,8 @@ public class AdjacencyMapGraph {
         dfsUtil(source, visited);
         
         boolean isMotherVertex = true;
-        for(int v : graph.keySet()) {
-        	if(!visited[v]) {
+        for(int vertex : vertices()) {
+        	if(!visited[vertex]) {
         		isMotherVertex = false;
             	break;
         	}
@@ -207,7 +240,7 @@ public class AdjacencyMapGraph {
         stack.add(source);
         while (!stack.isEmpty()) {
             int src = stack.pop();
-			for (int dest : graph.get(src)) {
+			for (int dest : neighbours(src)) {
 				if (!visited[dest]) {
 					stack.push(dest);
 					visited[dest] = true;
@@ -215,6 +248,25 @@ public class AdjacencyMapGraph {
 			}
         }
     }
+	
+	//https://www.geeksforgeeks.org/transitive-closure-of-a-graph/
+    public int[][] transitiveClosure() {
+        int[][] transitiveClosureMatrix = new int[size()][size()];
+        for (int source : vertices()) {
+            dfsUtil(source, source, transitiveClosureMatrix);
+        }
+        return transitiveClosureMatrix;
+    }
+    
+	private void dfsUtil(int source, int dest, int[][] transitiveClosureMatrix) {
+        transitiveClosureMatrix[source][dest] = 1;
+        for (int vertex : neighbours(dest)) {
+            if (transitiveClosureMatrix[source][vertex] == 0) {
+                dfsUtil(source, vertex, transitiveClosureMatrix);
+            }
+        }
+    }
+	
 	
 	private boolean isValidEdges(int source, int destination) {
 		if (!isVertexExist(source)) {
