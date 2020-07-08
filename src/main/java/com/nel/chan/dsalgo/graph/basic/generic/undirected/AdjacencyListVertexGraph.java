@@ -1,4 +1,4 @@
-package com.nel.chan.dsalgo.graph.impl.basic;
+package com.nel.chan.dsalgo.graph.basic.generic.undirected;
 
 import java.util.ArrayList;
 import java.util.List;

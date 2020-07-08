@@ -1,4 +1,4 @@
-package com.nel.chan.dsalgo.graph.impl.basic;
+package com.nel.chan.dsalgo.graph.basic.generic.undirected;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -16,7 +16,6 @@ public class AdjacencyMatrixGraph {
 		this.graph = new int[noOfVertices][noOfVertices];
 	}
 
-	// O(V)
 	public void addVertex(int vertex) {
 		if (vertices.size() >= graph.length) {
 			throw new IllegalArgumentException("Graph is full");

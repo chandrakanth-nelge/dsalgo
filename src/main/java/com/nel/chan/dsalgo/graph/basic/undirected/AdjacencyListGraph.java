@@ -1,4 +1,4 @@
-package com.nel.chan.dsalgo.graph.impl.basic.directed;
+package com.nel.chan.dsalgo.graph.basic.undirected;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -80,7 +80,6 @@ public class AdjacencyListGraph {
 		while (!q.isEmpty()) {
 			int src = q.poll();
 			System.out.print(src + " ");
-
 			for (int dest : graph.get(src)) {
 				if (!visited[dest]) {
 					visited[dest] = true;
@@ -99,7 +98,6 @@ public class AdjacencyListGraph {
 		while (!stack.isEmpty()) {
 			int src = stack.pop();
 			System.out.print(src + " ");
-
 			for (int dest : graph.get(src)) {
 				if (!visited[dest]) {
 					stack.push(dest);
@@ -110,7 +108,54 @@ public class AdjacencyListGraph {
 		System.out.println();
 	}
 
-	public void dfsUtil(int source, boolean[] visited) {
+	public int findDegree(int source) {
+		if (!isVertexExist(source)) {
+			return -1;
+		}
+
+		return neighbours(source).size();
+	}
+
+	public boolean isPathExists(int source, int destination) {
+		if (source == destination) {
+			return true;
+		}
+
+		boolean isPathExists = false;
+		boolean[] visited = new boolean[size()];
+		visited[source] = true;
+		Stack<Integer> stack = new Stack<>();
+		stack.add(source);
+		while (!stack.isEmpty()) {
+			int src = stack.pop();
+			for (int dest : neighbours(src)) {
+				if (!visited[dest]) {
+					if (dest == destination) {
+						isPathExists = true;
+						break;
+					}
+					stack.add(dest);
+					visited[dest] = true;
+				}
+			}
+		}
+
+		return isPathExists;
+	}
+
+	public void connectedComponents() {
+		boolean[] visited = new boolean[size()];
+		int noOfComponents = 0;
+		for (int source = 0; source < size(); source++) {
+			if (!visited[source]) {
+				dfsUtil(source, visited);
+				++noOfComponents;
+			}
+		}
+		System.out.println("Connected Components = " + noOfComponents);
+	}
+
+	private void dfsUtil(int source, boolean[] visited) {
 		Stack<Integer> stack = new Stack<>();
 		stack.push(source);
 		while (!stack.isEmpty()) {
@@ -131,35 +176,5 @@ public class AdjacencyListGraph {
 
 	private boolean isVertexExist(int vertex) {
 		return !graph.get(vertex).isEmpty();
-	}
-
-	public static void main(String[] args) {
-		AdjacencyListGraph graph = new AdjacencyListGraph(5);
-
-		System.out.println("=================");
-		graph.addEdge(0, 1);
-		graph.addEdge(0, 3);
-		graph.addEdge(1, 2);
-		graph.addEdge(2, 3);
-		graph.addEdge(2, 4);
-
-		graph.printGraph();
-		System.out.println("=================");
-
-		System.out.println(graph.vertices());
-		System.out.println("=================");
-
-		System.out.println(graph.neighbours(2));
-		System.out.println("=================");
-
-		graph.bfs(0);
-		System.out.println("=================");
-
-		graph.dfs(0);
-		System.out.println("=================");
-
-		/*boolean[] visited = new boolean[5];
-		graph.dfsUtil(0, visited);
-		System.out.println("=================");*/
 	}
 }

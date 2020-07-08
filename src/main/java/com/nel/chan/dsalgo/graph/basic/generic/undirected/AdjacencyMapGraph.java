@@ -1,7 +1,6 @@
-package com.nel.chan.dsalgo.graph.impl.basic.directed;
+package com.nel.chan.dsalgo.graph.basic.generic.undirected;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,7 +40,7 @@ public class AdjacencyMapGraph {
 		}
 
 		graph.get(source).add(destination);
-		//graph.get(destination).add(source);
+		graph.get(destination).add(source);
 	}
 
 	public void removeEdge(int source, int destination) {
@@ -79,7 +78,7 @@ public class AdjacencyMapGraph {
 			throw new IllegalArgumentException("Vertex doesn't exist");
 		}
 
-		return neighbours(source).contains(Integer.valueOf(destination));
+		return graph.get(source).contains(Integer.valueOf(destination));
 	}
 	
 	public int size() {
@@ -110,7 +109,7 @@ public class AdjacencyMapGraph {
 			int src = q.poll();
 			System.out.print(src + " ");
 
-			for (int dest : neighbours(src)) {
+			for (int dest : graph.get(src)) {
 				if (!visited[dest]) {
 					visited[dest] = true;
 					q.offer(dest);
@@ -134,7 +133,7 @@ public class AdjacencyMapGraph {
             int src = stack.pop();
 			System.out.print(src + " ");
 
-			for (int dest : neighbours(src)) {
+			for (int dest : graph.get(src)) {
 				if (!visited[dest]) {
 					stack.push(dest);
 					visited[dest] = true;
@@ -148,7 +147,7 @@ public class AdjacencyMapGraph {
 		if (!isVertexExist(source)) {
 			return -1;
 		}
-		
+
 		return neighbours(source).size();
 	}
 	
@@ -160,9 +159,9 @@ public class AdjacencyMapGraph {
 		if (source == destination) {
 			return true;
 		}
-		
+
 		boolean isPathExists = false;
-		
+
 		boolean[] visited = new boolean[size()];
 		visited[source] = true;
 		Stack<Integer> stack = new Stack<>();
@@ -185,65 +184,16 @@ public class AdjacencyMapGraph {
 	}
 	
 	public void connectedComponents() {
-        boolean[] visited = new boolean[size()];
-        int noOfComponents = 0;
-        for (int source = 0; source < size(); source++) {
-            if (!visited[source]) {
-            	dfsUtil(source, visited);
-            	++noOfComponents;
-            }
-        }
-        System.out.println("Connected Components = " + noOfComponents);
-    }
-	
-	public int findMother() {
-        if (size() == 0) {
-            return -1;
-        }
-        
-        boolean[] visited = new boolean[size()];
-        int motherVertex = 0;
-        for (int source : vertices()) {
-            if (!visited[source]) {
-            	dfsUtil(source, visited);
-                motherVertex = source;
-            }
-        }
-        
-        visited = new boolean[size()];
-        dfsUtil(motherVertex, visited);
-        
-        for(int vertex : vertices()) {
-        	if(!visited[vertex]) {
-        		return -1;
-        	}
-        }
-        
-        return motherVertex;
-    }
-	
-	public void isMotherVertex(int source) {
-		if (!isVertexExist(source)) {
-			throw new IllegalArgumentException("Vertex doesn't exist");
+		boolean[] visited = new boolean[size()];
+		int noOfComponents = 0;
+		for (int source = 0; source < size(); source++) {
+			if (!visited[source]) {
+				dfsUtil(source, visited);
+				++noOfComponents;
+			}
 		}
-		
-        boolean[] visited = new boolean[size()];
-        dfsUtil(source, visited);
-        
-        boolean isMotherVertex = true;
-        for(int vertex : vertices()) {
-        	if(!visited[vertex]) {
-        		isMotherVertex = false;
-            	break;
-        	}
-        }
-        
-        if(isMotherVertex) {
-        	System.out.println(source + " Is a Mother vertex");
-        } else {
-        	System.out.println(source + " Not a Mother vertex");
-        }
-    }
+		System.out.println("Connected Components = " + noOfComponents);
+	}
 	
 	public void dfsUtil(int source, boolean[] visited) {
 		visited[source] = true;
@@ -252,7 +202,7 @@ public class AdjacencyMapGraph {
         stack.add(source);
         while (!stack.isEmpty()) {
             int src = stack.pop();
-			for (int dest : neighbours(src)) {
+			for (int dest : graph.get(src)) {
 				if (!visited[dest]) {
 					stack.push(dest);
 					visited[dest] = true;
@@ -260,25 +210,6 @@ public class AdjacencyMapGraph {
 			}
         }
     }
-	
-	//https://www.geeksforgeeks.org/transitive-closure-of-a-graph/
-    public int[][] transitiveClosure() {
-        int[][] transitiveClosureMatrix = new int[size()][size()];
-        for (int source : vertices()) {
-            dfsUtil(source, source, transitiveClosureMatrix);
-        }
-        return transitiveClosureMatrix;
-    }
-    
-	private void dfsUtil(int source, int dest, int[][] transitiveClosureMatrix) {
-        transitiveClosureMatrix[source][dest] = 1;
-        for (int vertex : neighbours(dest)) {
-            if (transitiveClosureMatrix[source][vertex] == 0) {
-                dfsUtil(source, vertex, transitiveClosureMatrix);
-            }
-        }
-    }
-	
 	
 	private boolean isValidEdges(int source, int destination) {
 		if (!isVertexExist(source)) {
@@ -298,6 +229,7 @@ public class AdjacencyMapGraph {
 		return graph.containsKey(vertex);
 	}
 	
+	
 	public static void main(String[] args) {
 		AdjacencyMapGraph graph = new AdjacencyMapGraph();
 		
@@ -308,23 +240,11 @@ public class AdjacencyMapGraph {
 		graph.addVertex(4);
 		
 		System.out.println("=================");
-		graph.addEdge(0, 2);
+		graph.addEdge(0, 1);
 		graph.addEdge(0, 3);
-		graph.addEdge(1, 0);
-		graph.addEdge(2, 1);
-		graph.addEdge(3, 4);
-		
-		/*graph.addEdge(1, 0);
 		graph.addEdge(1, 2);
-		graph.addEdge(1, 3);
-		graph.addEdge(3, 0);
-		graph.addEdge(3, 2);
-		graph.addEdge(3, 4);
-		graph.addEdge(3, 6);
-		graph.addEdge(4, 6);
-		graph.addEdge(5, 2);
-		graph.addEdge(6, 2);
-		graph.addEdge(6, 5);*/
+		graph.addEdge(2, 3);
+		graph.addEdge(2, 4);
 
 		graph.printGraph();
 		System.out.println("=================");
@@ -341,19 +261,7 @@ public class AdjacencyMapGraph {
 		graph.dfs(0);
 		System.out.println("=================");
 		
-		graph.isMotherVertex(0);
-		System.out.println("=================");
-	
-		System.out.println("Mother vertex = " + graph.findMother());
-		System.out.println("=================");
-		
-		System.out.println("Degree of 3 = " + graph.findDegree(3));
-		System.out.println("=================");
-		
-		int[][] transitiveClosureMatrix = graph.transitiveClosure();
-		for (int[] arr : transitiveClosureMatrix) {
-			System.out.println(Arrays.toString(arr));
-		}
+		graph.connectedComponents();
 		System.out.println("=================");
 	}
 }

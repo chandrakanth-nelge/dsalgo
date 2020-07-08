@@ -1,4 +1,4 @@
-package com.nel.chan.dsalgo.graph.impl.basic.undirected;
+package com.nel.chan.dsalgo.graph.basic.undirected;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -12,7 +12,7 @@ public class AdjacencyMatrixGraph {
 	public AdjacencyMatrixGraph(Integer noOfVertices) {
 		this.graph = new int[noOfVertices][noOfVertices];
 	}
-	
+
 	public void addVertex(int vertex) {
 		System.out.println("NA = " + vertex);
 	}
@@ -38,7 +38,7 @@ public class AdjacencyMatrixGraph {
 		graph[source][destination] = 0;
 		graph[destination][source] = 0;
 	}
-	
+
 	public List<Integer> vertices() {
 		List<Integer> vertices = new ArrayList<>();
 		for (int i = 0; i < size(); i++) {
@@ -92,7 +92,7 @@ public class AdjacencyMatrixGraph {
 			System.out.println("");
 		}
 	}
-	
+
 	public void bfs(int source) {
 		boolean[] visited = new boolean[size()];
 		visited[source] = true;
@@ -110,7 +110,7 @@ public class AdjacencyMatrixGraph {
 		}
 		System.out.println();
 	}
-	
+
 	public void dfs(int source) {
 		boolean[] visited = new boolean[size()];
 		visited[source] = true;
@@ -120,18 +120,67 @@ public class AdjacencyMatrixGraph {
 			int src = stack.pop();
 			System.out.print(src + " ");
 			for (int dest = 0; dest < size(); dest++) {
-				if (graph[src][dest] == 1) {
-					if (!visited[dest]) {
-						stack.push(dest);
-						visited[dest] = true;
-					}
+				if (graph[src][dest] == 1 && !visited[dest]) {
+					stack.push(dest);
+					visited[dest] = true;
 				}
 			}
 		}
 		System.out.println();
 	}
-	
-	public void dfsUtil(int source, boolean[] visited) {
+
+	public int findDegree(int source) {
+		if (!isVertexExist(source)) {
+			return -1;
+		}
+
+		return neighbours(source).size();
+	}
+
+	public boolean isPathExists(int source, int destination) {
+		if (!isValidEdges(source, destination)) {
+			throw new IllegalArgumentException("Vertex doesn't exist");
+		}
+
+		if (source == destination) {
+			return true;
+		}
+
+		boolean isPathExists = false;
+		boolean[] visited = new boolean[size()];
+		visited[source] = true;
+		Stack<Integer> stack = new Stack<>();
+		stack.add(source);
+		while (!stack.isEmpty()) {
+			int src = stack.pop();
+			for (int dest : neighbours(src)) {
+				if (!visited[dest]) {
+					if (dest == destination) {
+						isPathExists = true;
+						break;
+					}
+					stack.add(dest);
+					visited[dest] = true;
+				}
+			}
+		}
+
+		return isPathExists;
+	}
+
+	public void connectedComponents() {
+		boolean[] visited = new boolean[size()];
+		int noOfComponents = 0;
+		for (int source = 0; source < size(); source++) {
+			if (!visited[source]) {
+				dfsUtil(source, visited);
+				++noOfComponents;
+			}
+		}
+		System.out.println("Connected Components = " + noOfComponents);
+	}
+
+	private void dfsUtil(int source, boolean[] visited) {
 		Stack<Integer> stack = new Stack<>();
 		stack.push(source);
 		while (!stack.isEmpty()) {
@@ -139,49 +188,15 @@ public class AdjacencyMatrixGraph {
 			if (!visited[src]) {
 				visited[src] = true;
 				System.out.print(src + " ");
-
 				for (int dest = 0; dest < size(); dest++) {
-					if (graph[src][dest] == 1) {
-						if (!visited[dest]) {
-							stack.push(dest);
-						}
+					if (graph[src][dest] == 1 && !visited[dest]) {
+						stack.push(dest);
 					}
 				}
 			}
 		}
 		System.out.println();
 	}
-	
-	public void connectedComponents() {
-        boolean[] visited = new boolean[size()];
-        int noOfComponents = 0;
-        for (int source = 0; source < size(); source++) {
-            if (!visited[source]) {
-            	dfsUtil(source, visited);
-            	++noOfComponents;
-            }
-        }
-        System.out.println("Connected Components = " + noOfComponents);
-    }
-	
-	public void motherVertex(int source) {
-        boolean[] visited = new boolean[size()];
-        dfsUtil(source, visited);
-        
-        boolean isMotherVertex = true;
-        for (int i = 0; i < size(); i++) {
-            if (!visited[i]) {
-            	isMotherVertex = false;
-            	break;
-            }
-        }
-        
-        if(isMotherVertex) {
-        	System.out.println("Is a Mother vertex");
-        } else {
-        	System.out.println("Not a Mother vertex");
-        }
-    }
 
 	public boolean isCyclic() {
 		boolean[] visited = new boolean[size()];
@@ -195,7 +210,7 @@ public class AdjacencyMatrixGraph {
 
 		return false;
 	}
-	
+
 	private boolean dfsCyclic(int vertex, boolean[] visited, int parent) {
 		visited[vertex] = true;
 		for (int i : neighbours(vertex)) {
@@ -206,10 +221,10 @@ public class AdjacencyMatrixGraph {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	private boolean isValidEdges(int source, int destination) {
 		if (!isVertexExist(source)) {
 			System.out.println(source + " = is InValid Vertx");
