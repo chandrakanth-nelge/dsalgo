@@ -1,4 +1,4 @@
-package com.nel.chan.dsalgo.graph.impl;
+package com.nel.chan.dsalgo.graph.impl.basic.directed;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -131,5 +131,35 @@ public class AdjacencyListGraph {
 
 	private boolean isVertexExist(int vertex) {
 		return !graph.get(vertex).isEmpty();
+	}
+
+	public static void main(String[] args) {
+		AdjacencyListGraph graph = new AdjacencyListGraph(5);
+
+		System.out.println("=================");
+		graph.addEdge(0, 1);
+		graph.addEdge(0, 3);
+		graph.addEdge(1, 2);
+		graph.addEdge(2, 3);
+		graph.addEdge(2, 4);
+
+		graph.printGraph();
+		System.out.println("=================");
+
+		System.out.println(graph.vertices());
+		System.out.println("=================");
+
+		System.out.println(graph.neighbours(2));
+		System.out.println("=================");
+
+		graph.bfs(0);
+		System.out.println("=================");
+
+		graph.dfs(0);
+		System.out.println("=================");
+
+		/*boolean[] visited = new boolean[5];
+		graph.dfsUtil(0, visited);
+		System.out.println("=================");*/
 	}
 }

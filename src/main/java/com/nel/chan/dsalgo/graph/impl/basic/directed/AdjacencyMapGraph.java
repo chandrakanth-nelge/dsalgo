@@ -1,4 +1,4 @@
-package com.nel.chan.dsalgo.graph.impl;
+package com.nel.chan.dsalgo.graph.impl.basic.directed;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -184,6 +184,18 @@ public class AdjacencyMapGraph {
 		return isPathExists;
 	}
 	
+	public void connectedComponents() {
+        boolean[] visited = new boolean[size()];
+        int noOfComponents = 0;
+        for (int source = 0; source < size(); source++) {
+            if (!visited[source]) {
+            	dfsUtil(source, visited);
+            	++noOfComponents;
+            }
+        }
+        System.out.println("Connected Components = " + noOfComponents);
+    }
+	
 	public int findMother() {
         if (size() == 0) {
             return -1;
@@ -284,5 +296,64 @@ public class AdjacencyMapGraph {
 
 	private boolean isVertexExist(int vertex) {
 		return graph.containsKey(vertex);
+	}
+	
+	public static void main(String[] args) {
+		AdjacencyMapGraph graph = new AdjacencyMapGraph();
+		
+		graph.addVertex(0);
+		graph.addVertex(1);
+		graph.addVertex(2);
+		graph.addVertex(3);
+		graph.addVertex(4);
+		
+		System.out.println("=================");
+		graph.addEdge(0, 2);
+		graph.addEdge(0, 3);
+		graph.addEdge(1, 0);
+		graph.addEdge(2, 1);
+		graph.addEdge(3, 4);
+		
+		/*graph.addEdge(1, 0);
+		graph.addEdge(1, 2);
+		graph.addEdge(1, 3);
+		graph.addEdge(3, 0);
+		graph.addEdge(3, 2);
+		graph.addEdge(3, 4);
+		graph.addEdge(3, 6);
+		graph.addEdge(4, 6);
+		graph.addEdge(5, 2);
+		graph.addEdge(6, 2);
+		graph.addEdge(6, 5);*/
+
+		graph.printGraph();
+		System.out.println("=================");
+
+		System.out.println(graph.vertices());
+		System.out.println("=================");
+
+		System.out.println(graph.neighbours(2));
+		System.out.println("=================");
+
+		graph.bfs(0);
+		System.out.println("=================");
+		
+		graph.dfs(0);
+		System.out.println("=================");
+		
+		graph.isMotherVertex(0);
+		System.out.println("=================");
+	
+		System.out.println("Mother vertex = " + graph.findMother());
+		System.out.println("=================");
+		
+		System.out.println("Degree of 3 = " + graph.findDegree(3));
+		System.out.println("=================");
+		
+		int[][] transitiveClosureMatrix = graph.transitiveClosure();
+		for (int[] arr : transitiveClosureMatrix) {
+			System.out.println(Arrays.toString(arr));
+		}
+		System.out.println("=================");
 	}
 }
