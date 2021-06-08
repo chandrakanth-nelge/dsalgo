@@ -55,10 +55,6 @@ public class StackArrayImpl<T> implements Stack<T> {
 		container[top] = null;
 		top = top - 1;
 
-		/*if (top > 0 && top == container.length / 4) {
-			resize(container.length / 2);
-		}*/
-
 		return item;
 	}
 
@@ -77,7 +73,7 @@ public class StackArrayImpl<T> implements Stack<T> {
 	}
 
 	public boolean isEmpty() {
-		return (top == -1);
+		return top == -1;
 	}
 
 	public int size() {
