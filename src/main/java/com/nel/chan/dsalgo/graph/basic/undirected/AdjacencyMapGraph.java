@@ -140,6 +140,22 @@ public class AdjacencyMapGraph {
 		}
 		System.out.println();
 	}
+	
+	public void dfsR(int source) {
+		boolean[] visited = new boolean[size()];
+		dfsUtilR(source, visited);
+		System.out.println();
+	}
+	
+	private void dfsUtilR(int source, boolean[] visited) {
+		visited[source] = true;
+		System.out.print(source + " ");
+		for(int dest : neighbours(source)) {
+			if (!visited[dest]) {
+				dfsUtilR(dest, visited);
+			}
+		}
+	}
 
 	public int findDegree(int source) {
 		if (!isVertexExist(source)) {
@@ -207,6 +223,34 @@ public class AdjacencyMapGraph {
 			}
 		}
 	}
+	
+	public boolean isCyclic() {
+		boolean[] visited = new boolean[size()];
+		for (int source = 0; source < size(); source++) {
+			if (!visited[source]) {
+				if (isCyclicUtil(source, visited, -1)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	private boolean isCyclicUtil(int source, boolean[] visited, int parent) {
+		visited[source] = true;
+		for (int dest : neighbours(source)) {
+			if (!visited[dest]) {
+				if (isCyclicUtil(dest, visited, source)) {
+					return true;
+				}
+			} else if (dest != parent) {
+				return true;
+			}
+		}
+
+		return false;
+	} 
 
 	private boolean isValidEdges(int source, int destination) {
 		if (!isVertexExist(source)) {

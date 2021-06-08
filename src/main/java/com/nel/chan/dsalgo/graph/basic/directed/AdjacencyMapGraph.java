@@ -16,11 +16,13 @@ public class AdjacencyMapGraph {
 	}
 
 	public void addVertex(int vertex) {
-		if (isVertexExist(vertex)) {
+		if(!isVertexExist(vertex)) {
+			graph.put(vertex, new ArrayList<>());
+		}
+		/*if (isVertexExist(vertex)) {
 			throw new IllegalArgumentException("Vertex already exist");
 		}
-
-		graph.put(vertex, new ArrayList<>());
+		graph.put(vertex, new ArrayList<>());*/
 	}
 
 	public void removeVertex(Integer vertex) {
@@ -35,11 +37,14 @@ public class AdjacencyMapGraph {
 	}
 
 	public void addEdge(int source, int destination) {
-		if (!isValidEdges(source, destination)) {
+		if(isValidEdges(source, destination)) {
+			graph.get(source).add(destination);
+		}
+		
+		/*if (!isValidEdges(source, destination)) {
 			throw new IllegalArgumentException("Vertex doesn't exist");
 		}
-
-		graph.get(source).add(destination);
+		graph.get(source).add(destination);*/
 	}
 
 	public void removeEdge(int source, int destination) {
@@ -136,7 +141,24 @@ public class AdjacencyMapGraph {
 		}
 		System.out.println();
 	}
+	
+	private void dfsUtil(int source, boolean[] visited) {
+		visited[source] = true;
 
+		Stack<Integer> stack = new Stack<>();
+		stack.add(source);
+		while (!stack.isEmpty()) {
+			int src = stack.pop();
+			System.out.print(src + " ");
+			for (int dest : neighbours(src)) {
+				if (!visited[dest]) {
+					stack.push(dest);
+					visited[dest] = true;
+				}
+			}
+		}
+	}
+	
 	public int findDegree(int source) {
 		if (!isVertexExist(source)) {
 			return -1;
@@ -244,32 +266,51 @@ public class AdjacencyMapGraph {
 	}
 	
 	public void stronglyConnectedComponents() {
-		boolean[] visited = new boolean[size()];
-		int noOfComponents = 0;
+		Stack<Integer> stack = new Stack<>(); 
+		boolean[] visited = new boolean[size()]; 
 		for (int source = 0; source < size(); source++) {
-			if (!visited[source]) {
-				dfsUtil(source, visited);
-				++noOfComponents;
-			}
+		    if (!visited[source]) {
+		    	fillOrder(source, visited, stack);
+		    }
 		}
-		System.out.println("Connected Components = " + noOfComponents);
+
+		AdjacencyMapGraph g = getTranspose();
+		
+		visited = new boolean[size()]; 
+		while (!stack.empty()) {
+		    int v = stack.pop(); 
+		    if (!visited[v]) {
+		        g.dfsUtil(v, visited); 
+		        System.out.println(); 
+		    } 
+		} 
 	}
 	
-	public void dfsUtil(int source, boolean[] visited) {
-		visited[source] = true;
-
-		Stack<Integer> stack = new Stack<>();
-		stack.add(source);
-		while (!stack.isEmpty()) {
-			int src = stack.pop();
-			for (int dest : neighbours(src)) {
-				if (!visited[dest]) {
-					stack.push(dest);
-					visited[dest] = true;
-				}
+	private void fillOrder(int source, boolean[] visited, Stack<Integer> stack) {
+        visited[source] = true; 
+        for (int dest : neighbours(source)) {
+			if (!visited[dest]) {
+				fillOrder(dest, visited, stack); 
 			}
 		}
-	}
+        stack.push(source); 
+    }
+	
+	private AdjacencyMapGraph getTranspose() {
+		AdjacencyMapGraph adjGraph = new AdjacencyMapGraph(); 
+        for (int source = 0; source < size(); source++) {
+            for (int dest : neighbours(source)) {
+            	try {
+        			adjGraph.addVertex(dest);
+        			adjGraph.addVertex(source);
+        			adjGraph.addEdge(dest, source);
+        		} catch (IllegalArgumentException e) {
+					//e.printStackTrace();
+				}
+    		}
+        } 
+        return adjGraph; 
+    } 
 
 	private boolean isValidEdges(int source, int destination) {
 		if (!isVertexExist(source)) {

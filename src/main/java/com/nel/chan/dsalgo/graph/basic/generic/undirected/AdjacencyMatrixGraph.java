@@ -9,7 +9,6 @@ import java.util.Stack;
 public class AdjacencyMatrixGraph {
 	private List<Integer> vertices;
 	private int[][] graph;
-	private int motherVertex;
 
 	public AdjacencyMatrixGraph(int noOfVertices) {
 		this.vertices = new ArrayList<>(noOfVertices);
@@ -28,7 +27,6 @@ public class AdjacencyMatrixGraph {
 		vertices.add(vertex);
 	}
 
-	// O(V + V)
 	public void removeVertex(int vertex) {
 		int sourceIndex = getVertexIndex(vertex);
 		if (sourceIndex == -1) {
@@ -41,7 +39,6 @@ public class AdjacencyMatrixGraph {
 		}
 	}
 
-	// O(V + V)
 	public void addEdge(int source, int destination) {
 		int sourceIndex = getVertexIndex(source);
 		int destinationIndex = getVertexIndex(destination);
@@ -56,7 +53,6 @@ public class AdjacencyMatrixGraph {
 		}
 	}
 
-	// O(V + V)
 	public void removeEdge(int source, int destination) {
 		int sourceIndex = getVertexIndex(source);
 		int destinationIndex = getVertexIndex(destination);
@@ -71,12 +67,10 @@ public class AdjacencyMatrixGraph {
 		}
 	}
 
-	// O(1)
 	public List<Integer> vertices() {
 		return vertices;
 	}
 
-	// O(V + V)
 	public List<Integer> neighbors(int source) {
 		int sourceIndex = getVertexIndex(source);
 		if (sourceIndex == -1) {
@@ -93,12 +87,10 @@ public class AdjacencyMatrixGraph {
 		return neighbors;
 	}
 
-	// O(V)
 	public boolean hasVertex(int source) {
 		return isVertexExist(source);
 	}
 
-	// O(V + V)
 	public boolean hasEdge(int source, int destination) {
 		int sourceIndex = getVertexIndex(source);
 		int destinationIndex = getVertexIndex(destination);
@@ -132,56 +124,18 @@ public class AdjacencyMatrixGraph {
 	}
 
 	public void dfs(int source) {
-        boolean[] visited = new boolean[vertices.size()];
-        visited[getVertexIndex(source)] = true;
-        Stack<Integer> stack = new Stack<>();
-        stack.push(source);
-        while (!stack.isEmpty()) {
-            int u = stack.pop();
-            System.out.print(u + " ");
-            int sourceIndex = getVertexIndex(u);
-            for (int destIndx = 0; destIndx < graph.length; destIndx++){
-                if(graph[sourceIndex][destIndx]==1 && !visited[destIndx]){
-                    stack.push(vertices.get(destIndx));
-                    visited[destIndx] = true;
-                }
-            }
-        }
-        
-        for (int i = 0; i < vertices.size(); i++) {
-            if (!visited[i]) {
-                return;
-            }
-            motherVertex = source;
-        }
-    }
-	
-	public void motherVertex() {
-        for (int i = 0; i < vertices.size(); i++) {
-            System.out.println();
-            dfs(vertices.get(i));
-        }
-        
-        if (0 != motherVertex) {
-            System.out.println("motherVertex ::" + motherVertex);
-            return;
-        }
-        System.out.println(":: motherVertex does not exist ::");
-    }
-	
-	public void dfs1(int s) {
 		boolean[] visited = new boolean[vertices.size()];
+		visited[getVertexIndex(source)] = true;
 		Stack<Integer> stack = new Stack<>();
-		stack.push(s);
+		stack.push(source);
 		while (!stack.isEmpty()) {
 			int u = stack.pop();
-			if (!visited[u]) {
-				visited[u] = true;
-				System.out.print(u + " ");
-				for (int v : graph[u]) {
-					if (!visited[v]) {
-						stack.push(v);
-					}
+			System.out.print(u + " ");
+			int sourceIndex = getVertexIndex(u);
+			for (int destIndx = 0; destIndx < graph.length; destIndx++) {
+				if (graph[sourceIndex][destIndx] == 1 && !visited[destIndx]) {
+					stack.push(vertices.get(destIndx));
+					visited[destIndx] = true;
 				}
 			}
 		}
@@ -199,12 +153,10 @@ public class AdjacencyMatrixGraph {
 		}
 	}
 
-	// O(V)
 	private boolean isVertexExist(int vertex) {
 		return vertices.contains(vertex);
 	}
 
-	// O(V)
 	private int getVertexIndex(int vertex) {
 		return vertices.indexOf(vertex);
 	}
