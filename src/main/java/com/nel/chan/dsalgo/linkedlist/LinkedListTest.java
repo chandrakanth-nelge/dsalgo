@@ -56,21 +56,4 @@ public class LinkedListTest {
 		
 		
 	}
-
-	@SuppressWarnings("unused")
-	private static void findNthNodeFronEndOfLinkedlist() {
-		SinglyLinkedList<String> list = new SinglyLinkedList<>();
-		list.addLast("20");
-		list.addLast("30");
-		list.addLast("40");
-		list.addAt("10", 1);
-		list.addAfter("40", "55");
-		System.out.println("========================LinkedList Elements============================");
-		list.print();
-		System.out.println("========================LinkedList Elements============================");
-
-		int elementTobeSearchedLocation = 5;
-
-		list.findNthNodeFronEndOfLinkedlist(elementTobeSearchedLocation);
-	}
 }

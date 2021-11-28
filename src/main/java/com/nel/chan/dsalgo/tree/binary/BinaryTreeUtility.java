@@ -11,7 +11,7 @@ public class BinaryTreeUtility<T extends Comparable<T>> extends BinaryTreeImpl<T
 			return 0;
 		}
 
-		return (int) node.data + sum(node.left) + sum(node.right);
+		return (Integer) node.data + sum(node.left) + sum(node.right);
 	}
 
 	public int max() {
@@ -23,7 +23,7 @@ public class BinaryTreeUtility<T extends Comparable<T>> extends BinaryTreeImpl<T
 			return Integer.MIN_VALUE;
 		}
 
-		return Math.max((int) node.data, Math.max(max(node.left), max(node.right)));
+		return Math.max((Integer) node.data, Math.max(max(node.left), max(node.right)));
 	}
 	
 	public int height() {
