@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * @author Chandrakanth Nelge
  */
-public class CountNumberZOfConsecutiveSetBits {
+public class A6CountNumberZOfConsecutiveSetBits {
 
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);

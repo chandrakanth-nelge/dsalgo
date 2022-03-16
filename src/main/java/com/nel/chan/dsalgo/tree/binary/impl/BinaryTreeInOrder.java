@@ -1,6 +1,7 @@
-package com.nel.chan.dsalgo.tree.binary;
+package com.nel.chan.dsalgo.tree.binary.impl;
 
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -52,30 +53,28 @@ public class BinaryTreeInOrder<T extends Comparable<T>> extends BinaryTreeImpl<T
 	}
 
 	public void inOrderRec(BinaryNode<T> node) {
-		if (null == node) {
+		if(Objects.isNull(node))
 			return;
-		}
-
+		
 		inOrderRec(node.left);
 		System.out.print(node.data + " ");
 		inOrderRec(node.right);
 	}
 
 	public void inOrderIter(BinaryNode<T> node) {
-		if (null == node) {
+		if(Objects.isNull(node))
 			return;
-		}
-
-		Stack<BinaryNode<T>> s = new Stack<>();
+		
+		Stack<BinaryNode<T>> stack = new Stack<>();
 		BinaryNode<T> currentNode = node;
-		while (!s.empty() || currentNode != null) {
+		while (!stack.empty() || currentNode != null) {
 			if (currentNode != null) {
-				s.push(currentNode);
+				stack.push(currentNode);
 				currentNode = currentNode.left;
 			} else {
-				BinaryNode<T> n = s.pop();
-				System.out.print(n.data + " ");
-				currentNode = n.right;
+				BinaryNode<T> top = stack.pop();
+				System.out.print(top.data + " ");
+				currentNode = top.right;
 			}
 		}
 	}

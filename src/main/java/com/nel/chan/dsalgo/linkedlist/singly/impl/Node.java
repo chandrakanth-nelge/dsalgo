@@ -26,6 +26,6 @@ public class Node<T> {
 
 	@Override
 	public String toString() {
-		return "LinkedList [data=" + data + ", next=" + next + "]";
+		return "LinkedList [data=" + this.data + ", next=" + this.next + "]";
 	}
 }

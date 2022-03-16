@@ -1,4 +1,4 @@
-package com.nel.chan.dsalgo.tree.binary;
+package com.nel.chan.dsalgo.tree.binary.impl;
 
 public class BinaryTreeUtility<T extends Comparable<T>> extends BinaryTreeImpl<T> {
 
@@ -25,7 +25,7 @@ public class BinaryTreeUtility<T extends Comparable<T>> extends BinaryTreeImpl<T
 
 		return Math.max((Integer) node.data, Math.max(max(node.left), max(node.right)));
 	}
-	
+
 	public int height() {
 		return height(root);
 	}

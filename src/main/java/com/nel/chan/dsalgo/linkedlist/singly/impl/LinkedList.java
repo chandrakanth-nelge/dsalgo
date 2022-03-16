@@ -1,5 +1,7 @@
 package com.nel.chan.dsalgo.linkedlist.singly.impl;
 
+import java.util.Objects;
+
 /**
  * @author Chandrakanth Nelge
  */
@@ -8,17 +10,16 @@ public class LinkedList<T> {
 	private static final String INVALIDMES = "Invalid Position";
 
 	private int size = 0;
-	private Node<T> head;
+	protected Node<T> head;
 
 	public LinkedList() {
 		head = null;
 	}
-
-	public Node<T> head() {
-		return head;
+	
+	public LinkedList(Node<T> node) {
+		head = node;
 	}
 
-	//DONE
 	public void addFirst(T data) {
 		Node<T> newNode = new Node<>(data);
 		newNode.setNext(head);
@@ -26,9 +27,8 @@ public class LinkedList<T> {
 		++size;
 	}
 
-	//DONE
 	public void addLast(T data) {
-		if (null == head) {
+		if(Objects.isNull(head)) {
 			addFirst(data);
 			return;
 		}
@@ -42,7 +42,6 @@ public class LinkedList<T> {
 		++size;
 	}
 
-	//DONE
 	public void addAt(T data, int pos) {
 		if (pos < 0 || pos > size) {
 			System.out.println(INVALIDMES);
@@ -73,7 +72,7 @@ public class LinkedList<T> {
 	}
 
 	public void addAfter(T data, T newData) {
-		if (null == head) {
+		if (Objects.isNull(head)) {
 			System.out.println(SINGLY_LINKED_LIST_IS_EMPTY);
 			return;
 		}
@@ -94,9 +93,8 @@ public class LinkedList<T> {
 		}
 	}
 
-	//DONE
-	public Node<T> deleteFirst() {
-		if (null == head) {
+	public T deleteFirst() {
+		if (Objects.isNull(head)) {
 			System.out.println(SINGLY_LINKED_LIST_IS_EMPTY);
 			return null;
 		}
@@ -106,11 +104,10 @@ public class LinkedList<T> {
 		temp.setNext(null);
 		--size;
 		
-		return temp;
+		return temp.getData();
 	}
 
-	//DONE
-	public Node<T> deleteLast() {
+	public T deleteLast() {
 		if (null == head || null == head.getNext()) {
 			return deleteFirst();
 		}
@@ -124,10 +121,9 @@ public class LinkedList<T> {
 		--size;
 		prev.setNext(null);
 		
-		return temp;
+		return temp.getData();
 	}
 
-	//DONE
 	public void deleteAt(int pos) {
 		if (pos < 0 || pos >= size) {
 			System.out.println(INVALIDMES);
@@ -208,7 +204,6 @@ public class LinkedList<T> {
 		return temp.getData();
 	}
 
-	//DONE
 	public void print() {
 		Node<T> temp = head;
 		while (null != temp) {
@@ -218,7 +213,6 @@ public class LinkedList<T> {
 		System.out.println("null");
 	}
 
-	//DONE
 	public boolean isEmpty() {
 		return head == null;
 	}

@@ -1,6 +1,6 @@
 package com.nel.chan.dsalgo.bit;
 
-public class SetnUnset {
+public class A9SetnUnset {
 
 	public static void main(String[] args) {
 		int pos = 4;

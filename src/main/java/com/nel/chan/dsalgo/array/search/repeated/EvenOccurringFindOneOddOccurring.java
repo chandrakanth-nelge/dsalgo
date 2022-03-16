@@ -10,7 +10,8 @@ package com.nel.chan.dsalgo.array.search.repeated;
 public class EvenOccurringFindOneOddOccurring {
 	
 	public static void main(String[] args) {
-		int[] arr = new int[] { 1, 1, 2, 3, 5, 4, 4, 2, 5 };
+		int[] arr = new int[] { 2, 1, 2, 3, 5, 4, 4, 1, 5 };
+		//arr = new int[] {10,10,8};
 
 		int duplicate = iterative(arr);
 		System.out.println(duplicate);
@@ -21,9 +22,8 @@ public class EvenOccurringFindOneOddOccurring {
 
 	// O(N^2)
 	private static int iterative(int[] arr) {
-		int count = 0;
 		for (int i = 0; i < arr.length; i++) {
-			count = 0;
+			int count = 0;
 			for (int j = 0; j < arr.length; j++) {
 				if (arr[i] == arr[j]) {
 					++count;

@@ -6,24 +6,6 @@ package com.nel.chan.dsalgo.array.sort;
 public class BubbleSort {
 
 	/**
-	 * Bubbling smallest element
-	 */
-	public int[] bubbleSmallestElement(int[] arr) {
-		int size = arr.length;
-		for (int i = 0; i < size; i++) {
-			for (int j = i + 1; j < size; j++) {
-				if (arr[i] > arr[j]) {
-					int temp = arr[i];
-					arr[i] = arr[j];
-					arr[j] = temp;
-				}
-			}
-		}
-
-		return arr;
-	}
-
-	/**
 	 * Bubbling largest element
 	 * Optimized solution
 	 */
@@ -73,6 +55,24 @@ public class BubbleSort {
 		return arr;
 	}
 
+	/**
+	 * Bubbling smallest element
+	 */
+	public int[] bubbleSmallestElement(int[] arr) {
+		int size = arr.length;
+		for (int i = 0; i < size; i++) {
+			for (int j = i + 1; j < size; j++) {
+				if (arr[i] > arr[j]) {
+					int temp = arr[i];
+					arr[i] = arr[j];
+					arr[j] = temp;
+				}
+			}
+		}
+
+		return arr;
+	}
+	
 	public void noOfSwaps(int[] arr) {
 		int swapCount = 0;
 		int size = arr.length;

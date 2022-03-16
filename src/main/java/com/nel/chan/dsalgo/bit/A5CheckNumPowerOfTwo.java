@@ -6,7 +6,7 @@ package com.nel.chan.dsalgo.bit;
  * 
  * @author Chandrakanth Nelge
  */
-public class CheckNumPowerOfTwo {
+public class A5CheckNumPowerOfTwo {
 
 	public static void main(String[] args) {
 		int num = 1;

@@ -3,7 +3,7 @@ package com.nel.chan.dsalgo.bit;
 /**
  * @author Chandrakanth Nelge
  */
-public class CheckGivenBitIsSet {
+public class A3CheckGivenBitIsSet {
 
 	public static void main(String[] args) {
 		int num = 12;

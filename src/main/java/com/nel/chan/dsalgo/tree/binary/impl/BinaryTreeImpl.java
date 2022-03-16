@@ -1,4 +1,8 @@
-package com.nel.chan.dsalgo.tree.binary;
+package com.nel.chan.dsalgo.tree.binary.impl;
+
+import java.util.Objects;
+
+import com.nel.chan.dsalgo.tree.binary.BinaryTree;
 
 public class BinaryTreeImpl<T extends Comparable<T>> implements BinaryTree<T> {
 	protected BinaryNode<T> root;
@@ -13,6 +17,9 @@ public class BinaryTreeImpl<T extends Comparable<T>> implements BinaryTree<T> {
 
 	@Override
 	public void insert(T data) {
+		if(Objects.isNull(data)) {
+			return;
+		}
 		root = insert(root, data);
 	}
 
@@ -27,7 +34,7 @@ public class BinaryTreeImpl<T extends Comparable<T>> implements BinaryTree<T> {
 	}
 
 	private BinaryNode<T> insert(BinaryNode<T> node, T data) {
-		if (node == null) {
+		if(Objects.isNull(node)) {
 			return new BinaryNode<>(data);
 		}
 
@@ -43,7 +50,7 @@ public class BinaryTreeImpl<T extends Comparable<T>> implements BinaryTree<T> {
 	private void insertIter(BinaryNode<T> node, T data) {
 		BinaryNode<T> newNode = new BinaryNode<>(data);
 		if (node == null) {
-			node = newNode;
+			root = newNode;
 		} else {
 			BinaryNode<T> current = node;
 			BinaryNode<T> parent;

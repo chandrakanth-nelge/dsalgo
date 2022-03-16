@@ -3,7 +3,7 @@ package com.nel.chan.dsalgo.bit;
 /**
  * @author Chandrakanth Nelge
  */
-public class CountNumberSetBits {
+public class A4CountNumberSetBits {
 
 	public static void main(String[] args) {
 		int num = 6;

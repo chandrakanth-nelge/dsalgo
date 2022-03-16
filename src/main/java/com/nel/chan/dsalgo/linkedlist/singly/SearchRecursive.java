@@ -1,31 +1,27 @@
 package com.nel.chan.dsalgo.linkedlist.singly;
 
+import java.util.Objects;
+
 import com.nel.chan.dsalgo.linkedlist.singly.impl.LinkedList;
 import com.nel.chan.dsalgo.linkedlist.singly.impl.Node;
 
-public class SearchRecursive<T> {
+public class SearchRecursive<T> extends LinkedList<T> {
 
-	private LinkedList<T> linkedList;
-
-	public SearchRecursive(LinkedList<T> linkedList) {
-		this.linkedList = linkedList;
+	public boolean search(T data) {
+		return search(data, head);
 	}
 
-	public void search(T data) {
-		search(data, linkedList.head());
-	}
-
-	private boolean search(T data, Node<T> curr) {
-		if (curr == null) {
+	private boolean search(T data, Node<T> node) {
+		if (Objects.isNull(node)) {
 			System.out.println(data + " not found");
 			return false;
 		}
 
-		if (data.equals(curr.getData())) {
+		if (data.equals(node.getData())) {
 			System.out.println(data + " found");
 			return true;
 		}
 
-		return search(data, curr.getNext());
+		return search(data, node.getNext());
 	}
 }

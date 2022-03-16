@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * @author Chandrakanth Nelge
  */
-public class BasicBitOperation {
+public class A0BasicBitOperation {
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);

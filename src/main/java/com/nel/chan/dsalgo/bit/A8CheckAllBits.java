@@ -2,14 +2,14 @@ package com.nel.chan.dsalgo.bit;
 
 import java.util.Scanner;
 
-public class CheckAllBits {
+public class A8CheckAllBits {
 
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 		int testCases = in.nextInt();
 		for (int i = 0; i < testCases; i++) {
 			int num = in.nextInt();
-			if (checkBitsOptimized(num)) {
+			if (checkBits(num) && checkBitsOptimized(num)) {
 				System.out.println("YES");
 			} else {
 				System.out.println("NO");
@@ -32,19 +32,16 @@ public class CheckAllBits {
 		return (num & (num - 1)) == 0;
 	}
 
-	@SuppressWarnings("unused")
 	private static boolean checkBits(int num) {
 		if ((num & 1) == 0) {
 			return false;
 		}
 
-		boolean isAllOnes = true;
 		boolean isZeroPresent = false;
 		while (num != 0) {
 			if (((num & 1) == 1)) {
 				if (isZeroPresent) {
-					isAllOnes = false;
-					break;
+					return false;
 				}
 			} else {
 				isZeroPresent = true;
@@ -52,6 +49,6 @@ public class CheckAllBits {
 			num = num >> 1;
 		}
 
-		return isAllOnes;
+		return true;
 	}
 }

@@ -3,7 +3,7 @@ package com.nel.chan.dsalgo.bit;
 /**
  * @author Chandrakanth Nelge
  */
-public class CheckNumberOddOrEven {
+public class A2CheckNumberOddOrEven {
 
 	public static void main(String[] args) {
 		int num = 11;

@@ -1,5 +1,6 @@
-package com.nel.chan.dsalgo.tree.binary;
+package com.nel.chan.dsalgo.tree.binary.impl;
 
+import java.util.Objects;
 import java.util.Stack;
 
 public class BinaryTreePreOrder<T extends Comparable<T>> extends BinaryTreeImpl<T> {
@@ -25,22 +26,21 @@ public class BinaryTreePreOrder<T extends Comparable<T>> extends BinaryTreeImpl<
 		preOrderRec(node.left);
 		preOrderRec(node.right);
 	}
-
-	private void preOrderIter(BinaryNode<T> node) {
-		if (null == node) {
+	
+	public void preOrderIter(BinaryNode<T> node) {
+		if(Objects.isNull(node))
 			return;
-		}
-
+		
 		Stack<BinaryNode<T>> stack = new Stack<>();
-		stack.push(node);
-		while (!stack.empty()) {
-			BinaryNode<T> n = stack.pop();
-			System.out.print(n.data + " ");
-			if (n.right != null) {
-				stack.push(n.right);
-			}
-			if (n.left != null) {
-				stack.push(n.left);
+		BinaryNode<T> currentNode = node;
+		while (!stack.empty() || currentNode != null) {
+			if (currentNode != null) {
+				stack.push(currentNode);
+				System.out.print(currentNode.data + " ");
+				currentNode = currentNode.left;
+			} else {
+				BinaryNode<T> top = stack.pop();
+				currentNode = top.right;
 			}
 		}
 	}
