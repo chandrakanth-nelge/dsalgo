@@ -1,5 +1,10 @@
 package com.nel.chan.dsalgo.tree.binary;
 
+import com.nel.chan.dsalgo.tree.binary.impl.BinaryTreeInOrder;
+import com.nel.chan.dsalgo.tree.binary.impl.BinaryTreePostOrder;
+import com.nel.chan.dsalgo.tree.binary.impl.BinaryTreePreOrder;
+import com.nel.chan.dsalgo.tree.binary.impl.BinaryTreeUtility;
+
 public class BinaryTreeTest {
 	private static final String SPACE = "--------------------------";
 

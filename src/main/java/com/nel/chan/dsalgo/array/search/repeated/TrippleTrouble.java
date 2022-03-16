@@ -1,5 +1,6 @@
 package com.nel.chan.dsalgo.array.search.repeated;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,11 +16,14 @@ public class TrippleTrouble {
 	static final int INT_SIZE = 32;
 
 	public static void main(String[] args) {
-		int[] arr = new int[] { 10, 10, 6, 20, 20, 5, 20, 10, 5, 5 };
+		int[] arr = new int[] { 6, 10, 10, 20, 20, 5, 20, 10, 5, 5, 6, 6, 15 };
 
 		// Iterative
 		int duplicate = trippleTroubleIterative(arr);
 		System.out.println("Iterative :: " + duplicate);
+
+		duplicate = trippleTroubleLoop(arr);
+		System.out.println("Loop-Loop :: " + duplicate);
 
 		// BIT-MAP
 		duplicate = trippleTroubleHashing(arr);
@@ -50,6 +54,24 @@ public class TrippleTrouble {
 		}
 
 		return -1;
+	}
+
+	// NLogN + N ==> O(NLogN), O(N)
+	private static int trippleTroubleLoop(int[] arr) {
+		Arrays.parallelSort(arr);
+		
+		int size = arr.length;
+		int p1 = 0;
+		int p2 = p1 + 2;
+		while (p2 < size) {
+			if (arr[p1] != arr[p2]) {
+				break;
+			}
+			p1 = p1 + 3;
+			p2 = p1 + 2;
+		}
+
+		return arr[p1];
 	}
 
 	// N + N ==> O(N), O(N)

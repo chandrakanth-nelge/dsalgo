@@ -10,7 +10,7 @@ public interface BinaryTree<T> {
 	boolean isEmpty();
 
 	void insertIter(T data);
-	
+
 	void inOrder();
 
 	void preOrder();

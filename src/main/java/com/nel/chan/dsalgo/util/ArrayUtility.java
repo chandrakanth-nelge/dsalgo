@@ -1,6 +1,7 @@
 package com.nel.chan.dsalgo.util;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class ArrayUtility {
 
@@ -19,5 +20,9 @@ public class ArrayUtility {
 
 	public static void displayArray(int[] arr) {
 		System.out.println(Arrays.toString(arr));
+	}
+
+	public static boolean isEmpty(int[] arr) {
+		return (Objects.isNull(arr) || arr.length == 0);
 	}
 }
